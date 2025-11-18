@@ -56,6 +56,7 @@ function stop_walk_anim () {
     woodCutter.setImage(assets.image`myImage`)
 }
 function open_main_menu () {
+    inGame = false
     backPack = [
     miniMenu.createMenuItem("huevo", img`
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
@@ -200,7 +201,9 @@ let woodCutter: Sprite = null
 let vida_arbol = 0
 let golpes = 0
 let cerca = false
+let inGame = false
 info.setScore(0)
+inGame = true
 cerca = false
 golpes = 0
 vida_arbol = 3
@@ -213,4 +216,10 @@ tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
 tree.setPosition(80, 94)
 woodCutter = sprites.create(assets.image`myImage`, SpriteKind.Player)
 woodCutter.setPosition(18, 97)
-controller.moveSprite(woodCutter)
+forever(function () {
+    if (inGame) {
+        controller.moveSprite(woodCutter, 100, 100)
+    } else {
+        controller.moveSprite(woodCutter, 0, 0)
+    }
+})
