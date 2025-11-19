@@ -1,6 +1,8 @@
 @namespace
 class SpriteKind:
     dropeador = SpriteKind.create()
+    sumar = SpriteKind.create()
+    restar = SpriteKind.create()
 
 def on_b_pressed():
     open_main_menu()
@@ -35,7 +37,13 @@ def on_left_pressed():
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def open_second_menu():
-    global cursor, inGame
+    global cantidad, valorSprite, sumar2, restar2, cursor
+    cantidad = 0
+    valorSprite = textsprite.create("0")
+    valorSprite.set_max_font_height(15)
+    valorSprite.set_position(80, 59)
+    sprites.destroy(woodCutter)
+    sprites.destroy_all_sprites_of_kind(SpriteKind.dropeador)
     scene.set_background_image(img("""
         eeeee2222222222222222222222222222222222ee2222ee2222ee2222222eeeee2222222222222222222222222222222222ee22222eeee222ee2eeeee2222222222222222222222222222222222ee222
         222eeeee22222222222222222222222222222eee2222eeee2222ee222222222eeeee22222222222222222222222222222eee2222eeeee222ee22222eeeee22222222222222222222222222222eee2222
@@ -158,11 +166,34 @@ def open_second_menu():
         222222e2ebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbe2e222222
         222222eeebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbeee222222
         """))
+    sumar2 = sprites.create(assets.image("""
+        sumar
+        """), SpriteKind.sumar)
+    sumar2.set_position(121, 59)
+    restar2 = sprites.create(assets.image("""
+        restar
+        """), SpriteKind.restar)
+    restar2.set_position(32, 59)
     cursor = sprites.create(assets.image("""
         cursor
         """), SpriteKind.player)
     controller.move_sprite(cursor, 100, 100)
-    inGame = True
+
+
+def on_overlap_sumar(sprite, otherSprite):
+    global cantidad
+    if otherSprite == cursor:
+        cantidad += 1
+        valorSprite.set_text(str(cantidad))
+sprites.on_overlap(SpriteKind.sumar, SpriteKind.player, on_overlap_sumar)
+
+def on_overlap_restar(sprite, otherSprite):
+    global cantidad
+    if otherSprite == cursor:
+        cantidad -= 1
+        valorSprite.set_text(str(cantidad))
+sprites.on_overlap(SpriteKind.restar, SpriteKind.player, on_overlap_restar)
+
 # Suelta derecha
 
 def on_right_released():
@@ -182,6 +213,20 @@ def walk_lef():
             """),
         200,
         True)
+def spaws_trees():
+    global tree
+    tree = sprites.create(assets.image("""
+        myImage0
+        """), SpriteKind.dropeador)
+    tree.set_position(117, 94)
+    tree = sprites.create(assets.image("""
+        myImage0
+        """), SpriteKind.dropeador)
+    tree.set_position(46, 94)
+    tree = sprites.create(assets.image("""
+        myImage0
+        """), SpriteKind.dropeador)
+    tree.set_position(80, 94)
 # --- Eventos del mando ---
 # Presiona derecha
 
@@ -194,6 +239,13 @@ def stop_walk_anim():
     woodCutter.set_image(assets.image("""
         myImage
         """))
+def spaw_player():
+    global woodCutter
+    woodCutter = sprites.create(assets.image("""
+        myImage
+        """), SpriteKind.player)
+    controller.move_sprite(woodCutter, 100, 100)
+    woodCutter.set_position(18, 97)
 def open_main_menu():
     global inGame, backPack, myMenu
     inGame = False
@@ -348,34 +400,25 @@ def walk_right():
 selectedItem = ""
 myMenu: miniMenu.MenuSprite = None
 backPack: List[miniMenu.MenuItem] = []
+tree: Sprite = None
 cursor: Sprite = None
+restar2: Sprite = None
+sumar2: Sprite = None
+valorSprite: TextSprite = None
+cantidad = 0
 woodCutter: Sprite = None
 vida_arbol = 0
 golpes = 0
 cerca = False
 inGame = False
+textSprite = None
 info.set_score(0)
 inGame = True
 cerca = False
 golpes = 0
 vida_arbol = 3
-tree = sprites.create(assets.image("""
-    myImage0
-    """), SpriteKind.dropeador)
-tree.set_position(117, 94)
-tree = sprites.create(assets.image("""
-    myImage0
-    """), SpriteKind.dropeador)
-tree.set_position(46, 94)
-tree = sprites.create(assets.image("""
-    myImage0
-    """), SpriteKind.dropeador)
-tree.set_position(80, 94)
-woodCutter = sprites.create(assets.image("""
-    myImage
-    """), SpriteKind.player)
-controller.move_sprite(woodCutter, 100, 100)
-woodCutter.set_position(18, 97)
+spaw_player()
+spaws_trees()
 
 def on_forever():
     if inGame:

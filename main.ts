@@ -1,5 +1,7 @@
 namespace SpriteKind {
     export const dropeador = SpriteKind.create()
+    export const sumar = SpriteKind.create()
+    export const restar = SpriteKind.create()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     open_main_menu()
@@ -29,6 +31,12 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     walk_lef()
 })
 function open_second_menu () {
+    cantidad = 0
+    valorSprite = textsprite.create("0")
+    valorSprite.setMaxFontHeight(15)
+    valorSprite.setPosition(80, 59)
+    sprites.destroy(woodCutter)
+    sprites.destroyAllSpritesOfKind(SpriteKind.dropeador)
     scene.setBackgroundImage(img`
         eeeee2222222222222222222222222222222222ee2222ee2222ee2222222eeeee2222222222222222222222222222222222ee22222eeee222ee2eeeee2222222222222222222222222222222222ee222
         222eeeee22222222222222222222222222222eee2222eeee2222ee222222222eeeee22222222222222222222222222222eee2222eeeee222ee22222eeeee22222222222222222222222222222eee2222
@@ -151,12 +159,12 @@ function open_second_menu () {
         222222e2ebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbe2e222222
         222222eeebbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbeee222222
         `)
+    sumar2 = sprites.create(assets.image`sumar`, SpriteKind.sumar)
+    sumar2.setPosition(121, 59)
+    restar2 = sprites.create(assets.image`restar`, SpriteKind.restar)
+    restar2.setPosition(32, 59)
     cursor = sprites.create(assets.image`cursor`, SpriteKind.Player)
     controller.moveSprite(cursor, 100, 100)
-    sumar = sprites.create(assets.image`sumar`, SpriteKind.dropeador)
-    sumar.setPosition(121, 59)
-    restar = sprites.create(assets.image`restar`, SpriteKind.dropeador)
-    restar.setPosition(19, 59)
 }
 // Suelta derecha
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
@@ -166,6 +174,12 @@ controller.right.onEvent(ControllerButtonEvent.Released, function () {
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
     stop_walk_anim()
 })
+sprites.onOverlap(SpriteKind.sumar, SpriteKind.Player, function (sprite, otherSprite) {
+    if (otherSprite == cursor) {
+        cantidad += 1
+        valorSprite.setText("" + cantidad)
+    }
+})
 function walk_lef () {
     animation.runImageAnimation(
     woodCutter,
@@ -173,6 +187,14 @@ function walk_lef () {
     200,
     true
     )
+}
+function spaws_trees () {
+    tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
+    tree.setPosition(117, 94)
+    tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
+    tree.setPosition(46, 94)
+    tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
+    tree.setPosition(80, 94)
 }
 // --- Eventos del mando ---
 // Presiona derecha
@@ -324,6 +346,12 @@ function open_main_menu () {
         open_second_menu()
     })
 }
+sprites.onOverlap(SpriteKind.restar, SpriteKind.Player, function (sprite, otherSprite) {
+    if (otherSprite == cursor) {
+        cantidad += 0 - 1
+        valorSprite.setText("" + cantidad)
+    }
+})
 // --- Funciones para animación ---
 function walk_right () {
     animation.runImageAnimation(
@@ -336,26 +364,25 @@ function walk_right () {
 let selectedItem = ""
 let myMenu: miniMenu.MenuSprite = null
 let backPack: miniMenu.MenuItem[] = []
-let restar: Sprite = null
-let sumar: Sprite = null
+let tree: Sprite = null
 let cursor: Sprite = null
+let restar2: Sprite = null
+let sumar2: Sprite = null
+let valorSprite: TextSprite = null
+let cantidad = 0
 let woodCutter: Sprite = null
 let vida_arbol = 0
 let golpes = 0
 let cerca = false
 let inGame = false
+let textSprite = null
 info.setScore(0)
 inGame = true
 cerca = false
 golpes = 0
 vida_arbol = 3
-let tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
-tree.setPosition(117, 94)
-tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
-tree.setPosition(46, 94)
-tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
-tree.setPosition(80, 94)
 spaw_player()
+spaws_trees()
 forever(function () {
     if (inGame) {
         scene.setBackgroundImage(assets.image`bosc`)
