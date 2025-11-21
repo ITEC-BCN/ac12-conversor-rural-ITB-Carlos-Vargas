@@ -35,7 +35,7 @@ def on_left_pressed():
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def open_second_menu():
-    global cursor, inGame
+    global cursor, sumar, restar
     scene.set_background_image(img("""
         eeeee2222222222222222222222222222222222ee2222ee2222ee2222222eeeee2222222222222222222222222222222222ee22222eeee222ee2eeeee2222222222222222222222222222222222ee222
         222eeeee22222222222222222222222222222eee2222eeee2222ee222222222eeeee22222222222222222222222222222eee2222eeeee222ee22222eeeee22222222222222222222222222222eee2222
@@ -162,7 +162,14 @@ def open_second_menu():
         cursor
         """), SpriteKind.player)
     controller.move_sprite(cursor, 100, 100)
-    inGame = True
+    sumar = sprites.create(assets.image("""
+        sumar
+        """), SpriteKind.dropeador)
+    sumar.set_position(121, 59)
+    restar = sprites.create(assets.image("""
+        restar
+        """), SpriteKind.dropeador)
+    restar.set_position(19, 59)
 # Suelta derecha
 
 def on_right_released():
@@ -194,6 +201,13 @@ def stop_walk_anim():
     woodCutter.set_image(assets.image("""
         myImage
         """))
+def spaw_player():
+    global woodCutter
+    woodCutter = sprites.create(assets.image("""
+        myImage
+        """), SpriteKind.player)
+    controller.move_sprite(woodCutter, 100, 100)
+    woodCutter.set_position(18, 97)
 def open_main_menu():
     global inGame, backPack, myMenu
     inGame = False
@@ -348,6 +362,8 @@ def walk_right():
 selectedItem = ""
 myMenu: miniMenu.MenuSprite = None
 backPack: List[miniMenu.MenuItem] = []
+restar: Sprite = None
+sumar: Sprite = None
 cursor: Sprite = None
 woodCutter: Sprite = None
 vida_arbol = 0
@@ -371,11 +387,7 @@ tree = sprites.create(assets.image("""
     myImage0
     """), SpriteKind.dropeador)
 tree.set_position(80, 94)
-woodCutter = sprites.create(assets.image("""
-    myImage
-    """), SpriteKind.player)
-controller.move_sprite(woodCutter, 100, 100)
-woodCutter.set_position(18, 97)
+spaw_player()
 
 def on_forever():
     if inGame:
