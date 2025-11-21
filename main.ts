@@ -4,26 +4,32 @@ namespace SpriteKind {
     export const restar = SpriteKind.create()
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    open_main_menu()
+    if (inGame) {
+        open_main_menu()
+    }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.dropeador, function (sprite, otherSprite) {
     cerca = true
     if (golpes == vida_arbol) {
         sprites.destroy(otherSprite)
-        info.changeScoreBy(1)
+        info.changeScoreBy(3)
         golpes = 0
         cerca = false
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    woodCutter,
-    assets.animation`talar`,
-    100,
-    false
-    )
-    if (cerca) {
-        golpes += 1
+    if (inGame) {
+        animation.runImageAnimation(
+        woodCutter,
+        assets.animation`talar`,
+        100,
+        false
+        )
+        if (cerca) {
+            golpes += 1
+        }
+    } else if (inMenu) {
+        oprimido = true
     }
 })
 // Presiona izquierda
@@ -31,6 +37,8 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     walk_lef()
 })
 function open_second_menu () {
+    oprimido = false
+    inMenu = true
     cantidad = 0
     valorSprite = textsprite.create("0")
     valorSprite.setMaxFontHeight(15)
@@ -174,10 +182,11 @@ controller.right.onEvent(ControllerButtonEvent.Released, function () {
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
     stop_walk_anim()
 })
-sprites.onOverlap(SpriteKind.sumar, SpriteKind.Player, function (sprite, otherSprite) {
-    if (otherSprite == cursor) {
+sprites.onOverlap(SpriteKind.sumar, SpriteKind.Player, function (sprite2, otherSprite2) {
+    if (otherSprite2 == cursor && oprimido) {
         cantidad += 1
         valorSprite.setText("" + cantidad)
+        oprimido = false
     }
 })
 function walk_lef () {
@@ -210,10 +219,17 @@ function spaw_player () {
     controller.moveSprite(woodCutter, 100, 100)
     woodCutter.setPosition(18, 97)
 }
+sprites.onOverlap(SpriteKind.restar, SpriteKind.Player, function (sprite3, otherSprite3) {
+    if (otherSprite3 == cursor && oprimido) {
+        cantidad += 0 - 1
+        valorSprite.setText("" + cantidad)
+        oprimido = false
+    }
+})
 function open_main_menu () {
     inGame = false
     backPack = [
-    miniMenu.createMenuItem("huevo", img`
+    miniMenu.createMenuItem("huevo " + ("" + huevos), img`
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
         1 1 1 1 1 1 1 b b 1 1 1 1 1 1 1 
         1 1 1 1 1 1 1 c c 1 1 1 1 1 1 1 
@@ -231,7 +247,7 @@ function open_main_menu () {
         1 1 1 1 1 d b b b b 1 1 1 1 1 1 
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
         `),
-    miniMenu.createMenuItem("pollo", img`
+    miniMenu.createMenuItem("pollo " + ("" + pollos), img`
         1 1 1 1 1 1 1 f 1 1 1 1 1 1 1 1 
         1 1 1 1 1 1 f 2 f 1 1 1 1 1 1 1 
         1 1 1 1 f f 2 2 2 f f 1 1 1 1 1 
@@ -249,7 +265,7 @@ function open_main_menu () {
         1 1 1 1 f f 5 f f 5 f f 1 1 1 1 
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
         `),
-    miniMenu.createMenuItem("cabra", img`
+    miniMenu.createMenuItem("cabra " + ("" + cabras), img`
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
         1 1 1 1 1 1 1 1 b 1 1 1 1 1 1 1 
@@ -267,7 +283,7 @@ function open_main_menu () {
         1 b b b 1 b b b b 1 b b 1 1 1 1 
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
         `),
-    miniMenu.createMenuItem("Caballo", img`
+    miniMenu.createMenuItem("caballo " + ("" + caballos), img`
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
         1 1 1 1 1 1 1 b 1 b 1 1 1 1 1 1 
         1 1 1 1 1 1 b e d e 1 1 1 1 1 1 
@@ -345,13 +361,11 @@ function open_main_menu () {
         myMenu.close()
         open_second_menu()
     })
+    myMenu.onButtonPressed(controller.B, function (selection2, selectedIndex2) {
+        myMenu.close()
+        inGame = true
+    })
 }
-sprites.onOverlap(SpriteKind.restar, SpriteKind.Player, function (sprite, otherSprite) {
-    if (otherSprite == cursor) {
-        cantidad += 0 - 1
-        valorSprite.setText("" + cantidad)
-    }
-})
 // --- Funciones para animación ---
 function walk_right () {
     animation.runImageAnimation(
@@ -370,16 +384,25 @@ let restar2: Sprite = null
 let sumar2: Sprite = null
 let valorSprite: TextSprite = null
 let cantidad = 0
+let oprimido = false
 let woodCutter: Sprite = null
+let inMenu = false
 let vida_arbol = 0
+let caballos = 0
+let pollos = 0
+let cabras = 0
+let huevos = 0
 let golpes = 0
 let cerca = false
 let inGame = false
-let textSprite = null
 info.setScore(0)
 inGame = true
 cerca = false
 golpes = 0
+huevos = 0
+cabras = 0
+pollos = 0
+caballos = 0
 vida_arbol = 3
 spaw_player()
 spaws_trees()

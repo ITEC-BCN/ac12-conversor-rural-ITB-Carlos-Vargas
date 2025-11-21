@@ -222,59 +222,31 @@ ddddd77777777777777777777777777777777777ddddd77777777777777777777777777777777777
 `;
             case "image5":
             case "sumar":return img`
-fffffffffffffffffffffffff
-fffffffffffffffffffffffff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff11fffffffffffffffff11ff
-ff11fffffffffffffffff11ff
-ff11fffffffffffffffff11ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111fff111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-fffffffffffffffffffffffff
-fffffffffffffffffffffffff
+f f f f f f f f f f f 
+f 1 1 1 1 1 1 1 1 1 f 
+f 1 1 1 1 f 1 1 1 1 f 
+f 1 1 1 1 f 1 1 1 1 f 
+f 1 1 1 1 f 1 1 1 1 f 
+f 1 f f f f f f f 1 f 
+f 1 1 1 1 f 1 1 1 1 f 
+f 1 1 1 1 f 1 1 1 1 f 
+f 1 1 1 1 f 1 1 1 1 f 
+f 1 1 1 1 1 1 1 1 1 f 
+f f f f f f f f f f f 
 `;
             case "image6":
             case "restar":return img`
-fffffffffffffffffffffffff
-fffffffffffffffffffffffff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff11fffffffffffffffff11ff
-ff11fffffffffffffffff11ff
-ff11fffffffffffffffff11ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-ff111111111111111111111ff
-fffffffffffffffffffffffff
-fffffffffffffffffffffffff
+f f f f f f f f f f f 
+f 1 1 1 1 1 1 1 1 1 f 
+f 1 1 1 1 1 1 1 1 1 f 
+f 1 1 1 1 1 1 1 1 1 f 
+f 1 1 1 1 1 1 1 1 1 f 
+f 1 f f f f f f f 1 f 
+f 1 1 1 1 1 1 1 1 1 f 
+f 1 1 1 1 1 1 1 1 1 f 
+f 1 1 1 1 1 1 1 1 1 f 
+f 1 1 1 1 1 1 1 1 1 f 
+f f f f f f f f f f f 
 `;
         }
         return null;
