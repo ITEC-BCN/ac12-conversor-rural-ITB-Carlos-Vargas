@@ -32,6 +32,13 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         oprimido = true
     }
 })
+sprites.onOverlap(SpriteKind.restar, SpriteKind.Player, function (sprite32, otherSprite32) {
+    if (otherSprite32 == cursor && oprimido && cantidad > 1) {
+        cantidad += 0 - 1
+        valorSprite.setText("" + cantidad)
+        oprimido = false
+    }
+})
 // Presiona izquierda
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     walk_lef()
@@ -70,6 +77,23 @@ sprites.onOverlap(SpriteKind.sumar, SpriteKind.Player, function (sprite2, otherS
         oprimido = false
     }
 })
+function chekc_trueque () {
+    if (selectedItem.includes("huevo") && info.score() >= 3 * cantidad) {
+        huevos += 12 * cantidad
+        info.changeScoreBy(-3 * cantidad)
+    } else if (selectedItem.includes("pollo") && info.score() >= 6 * cantidad) {
+        pollos += 1 * cantidad
+        info.changeScoreBy(-6 * cantidad)
+    } else if (selectedItem.includes("cabra") && info.score() >= 5 * cantidad) {
+        cabras += 1 * cantidad
+        info.changeScoreBy(-5 * cantidad)
+    } else if (selectedItem.includes("caballo") && info.score() >= 12 * cantidad) {
+        caballos += 1 * cantidad
+        info.changeScoreBy(-12 * cantidad)
+    } else {
+    	
+    }
+}
 function walk_lef () {
     animation.runImageAnimation(
     woodCutter,
@@ -86,17 +110,8 @@ function spaws_trees () {
     tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
     tree.setPosition(80, 94)
 }
-// --- Eventos del mando ---
-// Presiona derecha
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    walk_right()
-})
-function stop_walk_anim () {
-    animation.stopAnimation(animation.AnimationTypes.All, woodCutter)
-    woodCutter.setImage(assets.image`myImage`)
-}
-sprites.onOverlap(SpriteKind.Text, SpriteKind.Player, function (sprite, otherSprite) {
-    if (otherSprite == cursor && oprimido) {
+sprites.onOverlap(SpriteKind.Text, SpriteKind.Player, function (sprite3, otherSprite3) {
+    if (otherSprite3 == cursor && oprimido) {
         inGame = true
         inMenu = true
         oprimido = false
@@ -106,20 +121,23 @@ sprites.onOverlap(SpriteKind.Text, SpriteKind.Player, function (sprite, otherSpr
         sprites.destroyAllSpritesOfKind(SpriteKind.Player)
         spaw_player()
         spaws_trees()
+        chekc_trueque()
     }
 })
+// --- Eventos del mando ---
+// Presiona derecha
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    walk_right()
+})
+function stop_walk_anim () {
+    animation.stopAnimation(animation.AnimationTypes.All, woodCutter)
+    woodCutter.setImage(assets.image`myImage`)
+}
 function spaw_player () {
     woodCutter = sprites.create(assets.image`myImage`, SpriteKind.Player)
     controller.moveSprite(woodCutter, 100, 100)
     woodCutter.setPosition(18, 97)
 }
-sprites.onOverlap(SpriteKind.restar, SpriteKind.Player, function (sprite3, otherSprite3) {
-    if (otherSprite3 == cursor && oprimido && cantidad > 1) {
-        cantidad += 0 - 1
-        valorSprite.setText("" + cantidad)
-        oprimido = false
-    }
-})
 function open_main_menu () {
     inGame = false
     backPack = [
@@ -152,16 +170,16 @@ function walk_right () {
     true
     )
 }
-let selectedItem = ""
 let myMenu: miniMenu.MenuSprite = null
 let backPack: miniMenu.MenuItem[] = []
 let tree: Sprite = null
-let cursor: Sprite = null
+let selectedItem = ""
 let confirm_botton: Sprite = null
 let restar_botton: Sprite = null
 let sumar_botton: Sprite = null
 let valorSprite: TextSprite = null
 let cantidad = 0
+let cursor: Sprite = null
 let oprimido = false
 let woodCutter: Sprite = null
 let inMenu = false

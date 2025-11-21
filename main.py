@@ -34,6 +34,14 @@ def on_a_pressed():
         oprimido = True
 controller.A.on_event(ControllerButtonEvent.PRESSED, on_a_pressed)
 
+def on_on_overlap2(sprite32, otherSprite32):
+    global cantidad, oprimido
+    if otherSprite32 == cursor and oprimido and cantidad > 1:
+        cantidad += 0 - 1
+        valorSprite.set_text("" + str(cantidad))
+        oprimido = False
+sprites.on_overlap(SpriteKind.restar, SpriteKind.player, on_on_overlap2)
+
 # Presiona izquierda
 
 def on_left_pressed():
@@ -44,8 +52,8 @@ def open_second_menu():
     global oprimido, inMenu, cantidad, valorSprite, sumar_botton, restar_botton, confirm_botton, cursor
     oprimido = False
     inMenu = True
-    cantidad = 0
-    valorSprite = textsprite.create("0")
+    cantidad = 1
+    valorSprite = textsprite.create("1")
     valorSprite.set_max_font_height(15)
     valorSprite.set_position(80, 29)
     sprites.destroy(woodCutter)
@@ -81,14 +89,27 @@ def on_left_released():
     stop_walk_anim()
 controller.left.on_event(ControllerButtonEvent.RELEASED, on_left_released)
 
-def on_on_overlap2(sprite2, otherSprite2):
+def on_on_overlap3(sprite2, otherSprite2):
     global cantidad, oprimido
     if otherSprite2 == cursor and oprimido:
         cantidad += 1
         valorSprite.set_text("" + str(cantidad))
         oprimido = False
-sprites.on_overlap(SpriteKind.sumar, SpriteKind.player, on_on_overlap2)
+sprites.on_overlap(SpriteKind.sumar, SpriteKind.player, on_on_overlap3)
 
+def chekc_trueque():
+    global huevos
+    if selectedItem.includes("huevo") and info.score() >= 0:
+        huevos += 12 * cantidad
+        info.change_score_by(3 * cantidad)
+    elif selectedItem.includes("pollo") and info.score() >= pollos + 12 * cantidad:
+        pass
+    elif False:
+        pass
+    elif False:
+        pass
+    else:
+        pass
 def walk_lef():
     animation.run_image_animation(woodCutter,
         assets.animation("""
@@ -110,6 +131,22 @@ def spaws_trees():
         myImage0
         """), SpriteKind.dropeador)
     tree.set_position(80, 94)
+
+def on_on_overlap4(sprite3, otherSprite3):
+    global inGame, inMenu, oprimido
+    if otherSprite3 == cursor and oprimido:
+        inGame = True
+        inMenu = True
+        oprimido = False
+        sprites.destroy(sumar_botton)
+        sprites.destroy(restar_botton)
+        sprites.destroy_all_sprites_of_kind(SpriteKind.text)
+        sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+        spaw_player()
+        spaws_trees()
+        chekc_trueque()
+sprites.on_overlap(SpriteKind.text, SpriteKind.player, on_on_overlap4)
+
 # --- Eventos del mando ---
 # Presiona derecha
 
@@ -122,15 +159,6 @@ def stop_walk_anim():
     woodCutter.set_image(assets.image("""
         myImage
         """))
-
-def on_on_overlap3(sprite3, otherSprite3):
-    global inGame, inMenu
-    inGame = True
-    inMenu = True
-    spaw_player()
-    spaws_trees()
-sprites.on_overlap(SpriteKind.text, SpriteKind.player, on_on_overlap3)
-
 def spaw_player():
     global woodCutter
     woodCutter = sprites.create(assets.image("""
@@ -138,15 +166,6 @@ def spaw_player():
         """), SpriteKind.player)
     controller.move_sprite(woodCutter, 100, 100)
     woodCutter.set_position(18, 97)
-
-def on_on_overlap4(sprite32, otherSprite32):
-    global cantidad, oprimido
-    if otherSprite32 == cursor and oprimido:
-        cantidad += 0 - 1
-        valorSprite.set_text("" + str(cantidad))
-        oprimido = False
-sprites.on_overlap(SpriteKind.restar, SpriteKind.player, on_on_overlap4)
-
 def open_main_menu():
     global inGame, backPack, myMenu
     inGame = False
@@ -198,16 +217,16 @@ def walk_right():
             """),
         200,
         True)
-selectedItem = ""
 myMenu: miniMenu.MenuSprite = None
 backPack: List[miniMenu.MenuItem] = []
 tree: Sprite = None
-cursor: Sprite = None
+selectedItem = ""
 confirm_botton: Sprite = None
 restar_botton: Sprite = None
 sumar_botton: Sprite = None
 valorSprite: TextSprite = None
 cantidad = 0
+cursor: Sprite = None
 oprimido = False
 woodCutter: Sprite = None
 inMenu = False
