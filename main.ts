@@ -106,12 +106,11 @@ function walk_lef () {
     )
 }
 function spaws_trees () {
-    tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
-    tree.setPosition(117, 94)
-    tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
-    tree.setPosition(46, 94)
-    tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
-    tree.setPosition(80, 94)
+    posiciones = [46, 80, 117]
+    for (let value of posiciones) {
+        tree = sprites.create(assets.image`myImage0`, SpriteKind.dropeador)
+        tree.setPosition(value, 94)
+    }
 }
 sprites.onOverlap(SpriteKind.Text, SpriteKind.Player, function (sprite3, otherSprite3) {
     if (otherSprite3 == cursor && oprimido) {
@@ -176,6 +175,7 @@ function walk_right () {
 let myMenu: miniMenu.MenuSprite = null
 let backPack: miniMenu.MenuItem[] = []
 let tree: Sprite = null
+let posiciones: number[] = []
 let selectedItem = ""
 let confirm_botton: Sprite = null
 let restar_botton: Sprite = null

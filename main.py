@@ -125,6 +125,10 @@ def walk_lef():
         True)
 def spaws_trees():
     global tree
+    posiciones = [46, 80, 117]
+    list2: List[number] = []
+    for value in list2:
+        pass
     tree = sprites.create(assets.image("""
         myImage0
         """), SpriteKind.dropeador)
