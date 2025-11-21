@@ -39,8 +39,8 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 function open_second_menu () {
     oprimido = false
     inMenu = true
-    cantidad = 0
-    valorSprite = textsprite.create("0")
+    cantidad = 1
+    valorSprite = textsprite.create("1")
     valorSprite.setMaxFontHeight(15)
     valorSprite.setPosition(80, 29)
     sprites.destroy(woodCutter)
@@ -95,13 +95,26 @@ function stop_walk_anim () {
     animation.stopAnimation(animation.AnimationTypes.All, woodCutter)
     woodCutter.setImage(assets.image`myImage`)
 }
+sprites.onOverlap(SpriteKind.Text, SpriteKind.Player, function (sprite, otherSprite) {
+    if (otherSprite == cursor && oprimido) {
+        inGame = true
+        inMenu = true
+        oprimido = false
+        sprites.destroy(sumar_botton)
+        sprites.destroy(restar_botton)
+        sprites.destroyAllSpritesOfKind(SpriteKind.Text)
+        sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+        spaw_player()
+        spaws_trees()
+    }
+})
 function spaw_player () {
     woodCutter = sprites.create(assets.image`myImage`, SpriteKind.Player)
     controller.moveSprite(woodCutter, 100, 100)
     woodCutter.setPosition(18, 97)
 }
 sprites.onOverlap(SpriteKind.restar, SpriteKind.Player, function (sprite3, otherSprite3) {
-    if (otherSprite3 == cursor && oprimido) {
+    if (otherSprite3 == cursor && oprimido && cantidad > 1) {
         cantidad += 0 - 1
         valorSprite.setText("" + cantidad)
         oprimido = false

@@ -41,26 +41,30 @@ def on_left_pressed():
 controller.left.on_event(ControllerButtonEvent.PRESSED, on_left_pressed)
 
 def open_second_menu():
-    global oprimido, inMenu, cantidad, valorSprite, sumar2, restar2, cursor
+    global oprimido, inMenu, cantidad, valorSprite, sumar_botton, restar_botton, confirm_botton, cursor
     oprimido = False
     inMenu = True
     cantidad = 0
     valorSprite = textsprite.create("0")
     valorSprite.set_max_font_height(15)
-    valorSprite.set_position(80, 59)
+    valorSprite.set_position(80, 29)
     sprites.destroy(woodCutter)
     sprites.destroy_all_sprites_of_kind(SpriteKind.dropeador)
     scene.set_background_image(assets.image("""
         fondo_menu
         """))
-    sumar2 = sprites.create(assets.image("""
+    sumar_botton = sprites.create(assets.image("""
         sumar
         """), SpriteKind.sumar)
-    sumar2.set_position(121, 59)
-    restar2 = sprites.create(assets.image("""
+    sumar_botton.set_position(121, 59)
+    restar_botton = sprites.create(assets.image("""
         restar
         """), SpriteKind.restar)
-    restar2.set_position(32, 59)
+    restar_botton.set_position(32, 59)
+    confirm_botton = sprites.create(assets.image("""
+        ok
+        """), SpriteKind.text)
+    confirm_botton.set_position(76, 94)
     cursor = sprites.create(assets.image("""
         cursor
         """), SpriteKind.player)
@@ -118,6 +122,15 @@ def stop_walk_anim():
     woodCutter.set_image(assets.image("""
         myImage
         """))
+
+def on_on_overlap3(sprite3, otherSprite3):
+    global inGame, inMenu
+    inGame = True
+    inMenu = True
+    spaw_player()
+    spaws_trees()
+sprites.on_overlap(SpriteKind.text, SpriteKind.player, on_on_overlap3)
+
 def spaw_player():
     global woodCutter
     woodCutter = sprites.create(assets.image("""
@@ -126,13 +139,13 @@ def spaw_player():
     controller.move_sprite(woodCutter, 100, 100)
     woodCutter.set_position(18, 97)
 
-def on_on_overlap3(sprite3, otherSprite3):
+def on_on_overlap4(sprite32, otherSprite32):
     global cantidad, oprimido
-    if otherSprite3 == cursor and oprimido:
+    if otherSprite32 == cursor and oprimido:
         cantidad += 0 - 1
         valorSprite.set_text("" + str(cantidad))
         oprimido = False
-sprites.on_overlap(SpriteKind.restar, SpriteKind.player, on_on_overlap3)
+sprites.on_overlap(SpriteKind.restar, SpriteKind.player, on_on_overlap4)
 
 def open_main_menu():
     global inGame, backPack, myMenu
@@ -190,8 +203,9 @@ myMenu: miniMenu.MenuSprite = None
 backPack: List[miniMenu.MenuItem] = []
 tree: Sprite = None
 cursor: Sprite = None
-restar2: Sprite = None
-sumar2: Sprite = None
+confirm_botton: Sprite = None
+restar_botton: Sprite = None
+sumar_botton: Sprite = None
 valorSprite: TextSprite = None
 cantidad = 0
 oprimido = False
