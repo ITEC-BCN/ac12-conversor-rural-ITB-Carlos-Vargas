@@ -93,6 +93,8 @@ function chekc_trueque () {
     } else if (selectedItem.includes("patata") && info.score() >= 2 * cantidad) {
         patatas += 1 * cantidad
         info.changeScoreBy(-2 * cantidad)
+    } else {
+        game.splash("No tienes madera suficiente")
     }
 }
 function walk_lef () {
@@ -120,9 +122,9 @@ sprites.onOverlap(SpriteKind.Text, SpriteKind.Player, function (sprite3, otherSp
         sprites.destroy(restar_botton)
         sprites.destroyAllSpritesOfKind(SpriteKind.Text)
         sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+        chekc_trueque()
         spaw_player()
         spaws_trees()
-        chekc_trueque()
     }
 })
 // --- Eventos del mando ---
@@ -209,6 +211,19 @@ forever(function () {
     if (inGame) {
         scene.setBackgroundImage(assets.image`bosc`)
         controller.moveSprite(woodCutter, 100, 100)
+        if (woodCutter.x > scene.screenWidth()) {
+            woodCutter.x = 0
+            if (sprites.allOfKind(SpriteKind.dropeador).length == 0) {
+                spaws_trees()
+            }
+        }
+        // aparece por la izquierda
+        if (woodCutter.x < 0) {
+            woodCutter.x = scene.screenWidth()
+            if (sprites.allOfKind(SpriteKind.dropeador).length == 0) {
+                spaws_trees()
+            }
+        }
     } else {
         controller.moveSprite(woodCutter, 0, 0)
     }

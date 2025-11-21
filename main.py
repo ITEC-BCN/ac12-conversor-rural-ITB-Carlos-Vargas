@@ -98,18 +98,24 @@ def on_on_overlap3(sprite2, otherSprite2):
 sprites.on_overlap(SpriteKind.sumar, SpriteKind.player, on_on_overlap3)
 
 def chekc_trueque():
-    global huevos
-    if selectedItem.includes("huevo") and info.score() >= 0:
+    global huevos, pollos, cabras, caballos, patatas
+    if selectedItem.includes("huevo") and info.score() >= 3 * cantidad:
         huevos += 12 * cantidad
-        info.change_score_by(3 * cantidad)
-    elif selectedItem.includes("pollo") and info.score() >= pollos + 12 * cantidad:
-        pass
-    elif False:
-        pass
-    elif False:
-        pass
+        info.change_score_by(-3 * cantidad)
+    elif selectedItem.includes("pollo") and info.score() >= 6 * cantidad:
+        pollos += 1 * cantidad
+        info.change_score_by(-6 * cantidad)
+    elif selectedItem.includes("cabra") and info.score() >= 5 * cantidad:
+        cabras += 1 * cantidad
+        info.change_score_by(-5 * cantidad)
+    elif selectedItem.includes("caballo") and info.score() >= 12 * cantidad:
+        caballos += 1 * cantidad
+        info.change_score_by(-12 * cantidad)
+    elif selectedItem.includes("patata") and info.score() >= 2 * cantidad:
+        patatas += 1 * cantidad
+        info.change_score_by(-2 * cantidad)
     else:
-        pass
+        game.splash("No tienes madera suficiente")
 def walk_lef():
     animation.run_image_animation(woodCutter,
         assets.animation("""
@@ -142,9 +148,9 @@ def on_on_overlap4(sprite3, otherSprite3):
         sprites.destroy(restar_botton)
         sprites.destroy_all_sprites_of_kind(SpriteKind.text)
         sprites.destroy_all_sprites_of_kind(SpriteKind.player)
+        chekc_trueque()
         spaw_player()
         spaws_trees()
-        chekc_trueque()
 sprites.on_overlap(SpriteKind.text, SpriteKind.player, on_on_overlap4)
 
 # --- Eventos del mando ---
@@ -164,7 +170,6 @@ def spaw_player():
     woodCutter = sprites.create(assets.image("""
         myImage
         """), SpriteKind.player)
-    controller.move_sprite(woodCutter, 100, 100)
     woodCutter.set_position(18, 97)
 def open_main_menu():
     global inGame, backPack, myMenu
@@ -184,6 +189,10 @@ def open_main_menu():
         miniMenu.create_menu_item("caballo " + ("" + str(caballos)),
             assets.image("""
                 caballo
+                """)),
+        miniMenu.create_menu_item("1.5/kg patata " + ("" + str(patatas)),
+            assets.image("""
+                patata
                 """))]
     myMenu = miniMenu.create_menu_from_array(backPack)
     myMenu.set_title("Inventario")
@@ -205,8 +214,8 @@ def open_main_menu():
     
     def on_button_pressed2(selection2, selectedIndex2):
         global inGame
-        myMenu.close()
         inGame = True
+        myMenu.close()
     myMenu.on_button_pressed(controller.B, on_button_pressed2)
     
 # --- Funciones para animación ---
@@ -231,6 +240,7 @@ oprimido = False
 woodCutter: Sprite = None
 inMenu = False
 vida_arbol = 0
+patatas = 0
 caballos = 0
 pollos = 0
 cabras = 0
@@ -246,6 +256,7 @@ huevos = 0
 cabras = 0
 pollos = 0
 caballos = 0
+patatas = 0
 vida_arbol = 3
 spaw_player()
 spaws_trees()
@@ -255,6 +266,16 @@ def on_forever():
         scene.set_background_image(assets.image("""
             bosc
             """))
+        controller.move_sprite(woodCutter, 100, 100)
+        if woodCutter.x > scene.screen_width():
+            woodCutter.x = 0
+            if len(sprites.all_of_kind(SpriteKind.dropeador)) == 0:
+                spaws_trees()
+        # aparece por la izquierda
+        if woodCutter.x < 0:
+            woodCutter.x = scene.screen_width()
+            if len(sprites.all_of_kind(SpriteKind.dropeador)) == 0:
+                spaws_trees()
     else:
         controller.move_sprite(woodCutter, 0, 0)
 forever(on_forever)
