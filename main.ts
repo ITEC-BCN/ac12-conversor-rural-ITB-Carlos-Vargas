@@ -90,8 +90,9 @@ function chekc_trueque () {
     } else if (selectedItem.includes("caballo") && info.score() >= 12 * cantidad) {
         caballos += 1 * cantidad
         info.changeScoreBy(-12 * cantidad)
-    } else {
-    	
+    } else if (selectedItem.includes("patata") && info.score() >= 2 * cantidad) {
+        patatas += 1 * cantidad
+        info.changeScoreBy(-2 * cantidad)
     }
 }
 function walk_lef () {
@@ -135,7 +136,6 @@ function stop_walk_anim () {
 }
 function spaw_player () {
     woodCutter = sprites.create(assets.image`myImage`, SpriteKind.Player)
-    controller.moveSprite(woodCutter, 100, 100)
     woodCutter.setPosition(18, 97)
 }
 function open_main_menu () {
@@ -144,7 +144,8 @@ function open_main_menu () {
     miniMenu.createMenuItem("huevo " + ("" + huevos), assets.image`huevo`),
     miniMenu.createMenuItem("pollo " + ("" + pollos), assets.image`pollo`),
     miniMenu.createMenuItem("cabra " + ("" + cabras), assets.image`cabra`),
-    miniMenu.createMenuItem("caballo " + ("" + caballos), assets.image`caballo`)
+    miniMenu.createMenuItem("caballo " + ("" + caballos), assets.image`caballo`),
+    miniMenu.createMenuItem("1.5/kg patata " + ("" + patatas), assets.image`patata`)
     ]
     myMenu = miniMenu.createMenuFromArray(backPack)
     myMenu.setTitle("Inventario")
@@ -157,8 +158,8 @@ function open_main_menu () {
         open_second_menu()
     })
     myMenu.onButtonPressed(controller.B, function (selection2, selectedIndex2) {
-        myMenu.close()
         inGame = true
+        myMenu.close()
     })
 }
 // --- Funciones para animación ---
@@ -184,6 +185,7 @@ let oprimido = false
 let woodCutter: Sprite = null
 let inMenu = false
 let vida_arbol = 0
+let patatas = 0
 let caballos = 0
 let pollos = 0
 let cabras = 0
@@ -199,12 +201,14 @@ huevos = 0
 cabras = 0
 pollos = 0
 caballos = 0
+patatas = 0
 vida_arbol = 3
 spaw_player()
 spaws_trees()
 forever(function () {
     if (inGame) {
         scene.setBackgroundImage(assets.image`bosc`)
+        controller.moveSprite(woodCutter, 100, 100)
     } else {
         controller.moveSprite(woodCutter, 0, 0)
     }

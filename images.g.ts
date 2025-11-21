@@ -277,25 +277,6 @@ b d d 1 1 b d d d 1 b b 1 1 1 1
 1 b b b 1 b b b b 1 b b 1 1 1 1 
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 `;
-            case "etgn[11(n,ZM3B|~:Ynf":
-            case "caballo":return img`
-1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 b 1 b 1 1 1 1 1 1 
-1 1 1 1 1 1 b e d e 1 1 1 1 1 1 
-1 1 1 1 1 e b e e e e 1 1 1 1 1 
-1 1 1 1 b e b e e e e e 1 1 1 1 
-1 1 1 1 e c b b b b d 1 1 1 1 1 
-1 1 1 e e e b b c b b d 1 1 1 1 
-1 1 1 e e b b b c b b b d 1 1 1 
-1 1 e e b b b 4 4 b b b d d 1 1 
-1 1 e e b e b b b b b d d c d 1 
-1 1 e e e b e b b b b d d d d 1 
-1 1 e e e b b e e 1 1 b d d d 1 
-1 1 e e b b b b b 1 1 1 b b 1 1 
-1 1 e c b b b b b e 1 1 1 1 1 1 
-1 1 e e b b 4 4 b e 1 1 1 1 1 1 
-1 1 c b b b 4 4 b b e 1 1 1 1 1 
-`;
             case "fc11oA_pCc`;?QqgSQW8":
             case "fondo_menu":return img`
 eeeee2222222222222222222222222222222222ee2222ee2222ee2222222eeeee2222222222222222222222222222222222ee22222eeee222ee2eeeee2222222222222222222222222222222222ee222
@@ -553,6 +534,44 @@ ffff1111111111111111111111111111111111111111111fff
 ffff1111111111111111111111111111111111111111111fff
 ffffffffffffffffffffffffffffffffffffffffffffffffff
 ffffffffffffffffffffffffffffffffffffffffffffffffff
+`;
+            case "etgn[11(n,ZM3B|~:Ynf":
+            case "caballo":return img`
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+1 1 1 1 1 1 b 1 1 b 1 1 1 1 1 1 
+1 1 1 1 1 d e 1 b e 1 1 1 1 1 1 
+1 1 1 1 1 e e c e e e 1 1 1 1 1 
+1 1 1 1 e e e b c e e e 1 1 1 1 
+1 1 1 e e e b b b b d 1 1 1 1 1 
+1 1 e e c b b c c b b d 1 1 1 1 
+1 1 e e e b b c c b b b d 1 1 1 
+1 e e c b b b 4 4 b b b d d 1 1 
+1 e e e b b b b b b b d b d d 1 
+1 e e c e b b b b b b d d d d 1 
+1 e e e c b e e e 1 1 b d d d 1 
+1 e e b e b b b e 1 1 1 b b 1 1 
+1 e c e b b b b b e 1 1 1 1 1 1 
+1 e e c b b 4 b b e 1 1 1 1 1 1 
+1 c b e b b 4 b b b e 1 1 1 1 1 
+`;
+            case "image8":
+            case "patata":return img`
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+1 1 1 1 1 1 1 4 d d 4 4 1 1 1 1 
+1 1 1 1 1 1 d d d d 4 4 4 1 1 1 
+1 1 1 1 1 d d d d d d d 4 4 1 1 
+1 1 1 1 d d 4 d d d d d 4 4 1 1 
+1 1 1 1 d d d d d d d d 4 e 1 1 
+1 1 1 1 4 4 d d d 4 d d 4 e 1 1 
+1 1 1 4 d d 4 d d e e 4 e 1 1 1 
+1 1 d d d d d d d d 4 4 e 1 1 1 
+1 1 d d 4 4 d d d d d 4 e 1 1 1 
+1 1 4 4 4 4 4 d d 4 4 e 1 1 1 1 
+1 1 1 4 4 4 4 4 4 4 e 1 1 1 1 1 
+1 1 1 1 e e e e e e 1 1 1 1 1 1 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
 `;
         }
         return null;
